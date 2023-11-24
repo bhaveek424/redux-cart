@@ -1,22 +1,13 @@
-// import React from 'react';
-// import { useEffect } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addToCart,
   decrementQuantity,
   incrementQuantity,
 } from '../store/cartSlice';
-// import {
-//   setGenderFilter,
-//   setColorFilter,
-//   setPriceRangeFilter,
-//   setTypeFilter,
-// } from '../store/filtersSlice';
-// import { setSearchText } from '../store/productSlice';
+
 import { useState } from 'react';
-import { Search } from 'lucide-react';
 import Filters from './Filters';
+import SearchInput from './SearchInput';
 
 const Products = () => {
   const [searchText, setSearchText] = useState('');
@@ -25,7 +16,6 @@ const Products = () => {
   const { data: products } = useSelector((state) => state.product);
   const cart = useSelector((state) => state.cart);
   const filters = useSelector((state) => state.filters);
-  // const searchText = useSelector((state) => state.product.searchText);
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -55,7 +45,6 @@ const Products = () => {
         case '401-600':
           filterPrice = price > 400 && price <= 600;
           break;
-        // Add other price ranges as needed
         default:
           break;
       }
@@ -93,51 +82,9 @@ const Products = () => {
     return cartProduct ? cartProduct.quantity : 0;
   };
 
-  // const handleSetGenderFilter = (gender) => {
-  //   if (filters.gender === gender) {
-  //     dispatch(setGenderFilter('')); // Clear the filter value
-  //   } else {
-  //     dispatch(setGenderFilter(gender)); // Apply the selected filter
-  //   }
-  // };
-
-  // const handleSetColorFilter = (color) => {
-  //   if (filters.color === color) {
-  //     dispatch(setColorFilter('')); // Clear the filter value
-  //   } else {
-  //     dispatch(setColorFilter(color)); // Apply the selected filter
-  //   }
-  // };
-
-  // const handleSetTypeFilter = (type) => {
-  //   if (filters.type === type) {
-  //     dispatch(setTypeFilter('')); // Clear the filter value
-  //   } else {
-  //     dispatch(setTypeFilter(type)); // Apply the selected filter
-  //   }
-  // };
-
-  // const handleSetPriceRangeFilter = (priceRange) => {
-  //   if (filters.priceRange === priceRange) {
-  //     dispatch(setPriceRangeFilter('')); // Clear the filter value
-  //   } else {
-  //     dispatch(setPriceRangeFilter(priceRange)); // Apply the selected filter
-  //   }
-  // };
-
   return (
     <div>
-      <div className="flex items-center justify-center p-5 border rounded py-2 pl-8 pr-4">
-        {/* Search input */}
-
-        <input
-          type="text"
-          placeholder="Search by name, color, or type"
-          value={searchText}
-          onChange={handleSearch}
-        />
-        <Search className=" inset-y-0 left-0 m-3 text-gray-500" size={20} />
-      </div>
+      <SearchInput searchText={searchText} handleSearch={handleSearch} />
       <div className="flex ">
         {/* Filters */}
         <Filters />
