@@ -1,5 +1,5 @@
-import React from 'react';
-import { useEffect } from 'react';
+// import React from 'react';
+// import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -7,20 +7,37 @@ import {
   decrementQuantity,
   incrementQuantity,
 } from '../store/cartSlice';
-import {
-  setGenderFilter,
-  setColorFilter,
-  setPriceRangeFilter,
-  setTypeFilter,
-} from '../store/filtersSlice';
+// import {
+//   setGenderFilter,
+//   setColorFilter,
+//   setPriceRangeFilter,
+//   setTypeFilter,
+// } from '../store/filtersSlice';
+// import { setSearchText } from '../store/productSlice';
+import { useState } from 'react';
+import { Search } from 'lucide-react';
+import Filters from './Filters';
 
 const Products = () => {
+  const [searchText, setSearchText] = useState('');
+  const [addedToCart, setAddedToCart] = useState([]);
   const dispatch = useDispatch();
   const { data: products } = useSelector((state) => state.product);
   const cart = useSelector((state) => state.cart);
   const filters = useSelector((state) => state.filters);
+  // const searchText = useSelector((state) => state.product.searchText);
 
-  const filteredProducts = products.filter((product) => {
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const applyFilters = (product) => {
+    const searchRegex = new RegExp(searchText, 'i');
+    const matchesSearch =
+      searchRegex.test(product.name) ||
+      searchRegex.test(product.color) ||
+      searchRegex.test(product.type);
+
     const filterGender = !filters.gender || product.gender === filters.gender;
     const filterColor = !filters.color || product.color === filters.color;
     const filterType = !filters.type || product.type === filters.type;
@@ -44,18 +61,22 @@ const Products = () => {
       }
     }
 
-    return filterGender && filterColor && filterPrice && filterType;
-  });
+    return (
+      matchesSearch && filterGender && filterColor && filterType && filterPrice
+    );
+  };
+
+  const filteredProducts = products.filter(applyFilters);
 
   const handleAdd = (product) => {
     const existingProduct = cart.find((item) => item.id === product.id);
 
     if (existingProduct) {
-      // If the product is already in the cart, don't add a new one, just increase its quantity
+      setAddedToCart([...addedToCart, product.id]);
       dispatch(incrementQuantity({ id: product.id }));
     } else {
-      // Add a new item to the cart with a default quantity of 1
       dispatch(addToCart(product));
+      setAddedToCart([...addedToCart, product.id]);
     }
   };
 
@@ -72,201 +93,116 @@ const Products = () => {
     return cartProduct ? cartProduct.quantity : 0;
   };
 
-  const handleSetGenderFilter = (gender) => {
-    if (filters.gender === gender) {
-      dispatch(setGenderFilter('')); // Clear the filter value
-    } else {
-      dispatch(setGenderFilter(gender)); // Apply the selected filter
-    }
-  };
+  // const handleSetGenderFilter = (gender) => {
+  //   if (filters.gender === gender) {
+  //     dispatch(setGenderFilter('')); // Clear the filter value
+  //   } else {
+  //     dispatch(setGenderFilter(gender)); // Apply the selected filter
+  //   }
+  // };
 
-  const handleSetColorFilter = (color) => {
-    if (filters.color === color) {
-      dispatch(setColorFilter('')); // Clear the filter value
-    } else {
-      dispatch(setColorFilter(color)); // Apply the selected filter
-    }
-  };
+  // const handleSetColorFilter = (color) => {
+  //   if (filters.color === color) {
+  //     dispatch(setColorFilter('')); // Clear the filter value
+  //   } else {
+  //     dispatch(setColorFilter(color)); // Apply the selected filter
+  //   }
+  // };
 
-  const handleSetTypeFilter = (type) => {
-    if (filters.type === type) {
-      dispatch(setTypeFilter('')); // Clear the filter value
-    } else {
-      dispatch(setTypeFilter(type)); // Apply the selected filter
-    }
-  };
+  // const handleSetTypeFilter = (type) => {
+  //   if (filters.type === type) {
+  //     dispatch(setTypeFilter('')); // Clear the filter value
+  //   } else {
+  //     dispatch(setTypeFilter(type)); // Apply the selected filter
+  //   }
+  // };
 
-  const handleSetPriceRangeFilter = (priceRange) => {
-    if (filters.priceRange === priceRange) {
-      dispatch(setPriceRangeFilter('')); // Clear the filter value
-    } else {
-      dispatch(setPriceRangeFilter(priceRange)); // Apply the selected filter
-    }
-  };
+  // const handleSetPriceRangeFilter = (priceRange) => {
+  //   if (filters.priceRange === priceRange) {
+  //     dispatch(setPriceRangeFilter('')); // Clear the filter value
+  //   } else {
+  //     dispatch(setPriceRangeFilter(priceRange)); // Apply the selected filter
+  //   }
+  // };
 
   return (
-    <>
-      <div>
-        <h2>Filters</h2>
-        {/* Gender filter */}
-        <div className="flex flex-col">
-          <h3 className="font-bold">Gender</h3>
-          <label>
-            <input
-              type="checkbox"
-              value="Men"
-              onChange={(e) => handleSetGenderFilter(e.target.value)}
-            />
-            Men
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="Women"
-              onChange={(e) => handleSetGenderFilter(e.target.value)}
-            />
-            Women
-          </label>
-        </div>
-        {/* Color filter */}
-        <div className="flex flex-col">
-          <h3 className="font-bold">Color</h3>
-          <label>
-            <input
-              type="checkbox"
-              value="Red"
-              onChange={(e) => handleSetColorFilter(e.target.value)}
-            />
-            Red
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="Blue"
-              onChange={(e) => handleSetColorFilter(e.target.value)}
-            />
-            Blue
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="Green"
-              onChange={(e) => handleSetColorFilter(e.target.value)}
-            />
-            Green
-          </label>
-        </div>
-        {/* Type filter */}
-        <div className="flex flex-col">
-          <h3 className="font-bold">Type</h3>
-          <label>
-            <input
-              type="checkbox"
-              value="Basic"
-              onChange={(e) => handleSetTypeFilter(e.target.value)}
-            />
-            Basic
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="Polo"
-              onChange={(e) => handleSetTypeFilter(e.target.value)}
-            />
-            Polo
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="Hoodie"
-              onChange={(e) => handleSetTypeFilter(e.target.value)}
-            />
-            Hoodie
-          </label>
-        </div>
-        {/* Price range filter */}
-        <div className="flex flex-col">
-          <h3 className="font-bold">Price Range</h3>
-          <label>
-            <input
-              type="checkbox"
-              value="0-250"
-              onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
-            />
-            0-250
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="251-400"
-              onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
-            />
-            251-400
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              value="401-600"
-              onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
-            />
-            401-600
-          </label>
-          {/* Add other price range options */}
-        </div>
+    <div>
+      <div className="flex items-center justify-center p-5 border rounded py-2 pl-8 pr-4">
+        {/* Search input */}
+
+        <input
+          type="text"
+          placeholder="Search by name, color, or type"
+          value={searchText}
+          onChange={handleSearch}
+        />
+        <Search className=" inset-y-0 left-0 m-3 text-gray-500" size={20} />
       </div>
+      <div className="flex ">
+        {/* Filters */}
+        <Filters />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="max-w-sm rounded overflow-hidden shadow-lg">
-            <img
-              src={product.imageURL}
-              alt={product.name}
-              className=" object-cover"
-            />
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{product.name}</div>
-              <div className="flex justify-between px-2 place-items-center">
-                <p className="text-xl  mb-2">
-                  {product.price} {product.currency}
-                </p>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="max-w-sm rounded overflow-hidden shadow-lg">
+              <img
+                src={product.imageURL}
+                alt={product.name}
+                className=" object-cover"
+              />
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2">{product.name}</div>
                 <div className="flex justify-between px-2 place-items-center">
-                  <div>
-                    <button
-                      onClick={() => handleDecreaseQuantity(product.id)}
-                      className="border border-gray-400 px-2 py-1 rounded-full bg-gray-200">
-                      -
-                    </button>
-                    <span className="px-2">
-                      {getProductQuantity(product.id)}
-                    </span>
-                    <button
-                      onClick={() => handleIncreaseQuantity(product.id)}
-                      className="border border-gray-400 px-2 py-1 rounded-full bg-gray-200">
-                      +
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => handleAdd(product)}
-                      disabled={cart.some(
-                        (item) =>
-                          item.id === product.id &&
-                          item.quantity >= product.quantity,
-                      )}
-                      className="bg-slate-600 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
-                      Add to Cart
-                    </button>
+                  <p className="text-xl  mb-2">
+                    {product.price} {product.currency}
+                  </p>
+
+                  <div className="flex justify-between px-2 place-items-center">
+                    {addedToCart.includes(product.id) ? (
+                      <div>
+                        <button
+                          onClick={() => handleDecreaseQuantity(product.id)}
+                          className="border border-gray-400 px-2 py-1 rounded-full bg-gray-200">
+                          -
+                        </button>
+                        <span className="px-2">
+                          {getProductQuantity(product.id)}
+                        </span>
+                        <button
+                          disabled={cart.some(
+                            (item) =>
+                              item.id === product.id &&
+                              item.quantity >= product.quantity,
+                          )}
+                          onClick={() => handleIncreaseQuantity(product.id)}
+                          className="border border-gray-400 px-2 py-1 rounded-full bg-gray-200">
+                          +
+                        </button>
+                      </div>
+                    ) : (
+                      <div>
+                        <button
+                          onClick={() => handleAdd(product)}
+                          disabled={cart.some(
+                            (item) =>
+                              item.id === product.id &&
+                              item.quantity >= product.quantity,
+                          )}
+                          className="bg-slate-600 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded">
+                          Add to Cart
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
