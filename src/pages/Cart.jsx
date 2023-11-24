@@ -22,6 +22,10 @@ const Cart = () => {
     dispatch(decrementQuantity({ id: productId }));
   };
 
+  const totalAmount = products.reduce((total, product) => {
+    return total + product.price * product.quantity;
+  }, 0);
+
   return (
     <div>
       <h3>Shopping Cart</h3>
@@ -68,6 +72,11 @@ const Cart = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div>
+        <h4>
+          Total Amount: {totalAmount} {/* Add currency symbol if needed */}
+        </h4>
       </div>
     </div>
   );
