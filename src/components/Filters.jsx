@@ -44,112 +44,114 @@ const Filters = () => {
   };
 
   return (
-    <div>
-      <h2>Filters</h2>
-      {/* Gender filter */}
-      <div className="flex flex-col">
-        <h3 className="font-bold">Gender</h3>
-        <label>
-          <input
-            type="checkbox"
-            value="Men"
-            onChange={(e) => handleSetGenderFilter(e.target.value)}
-          />
-          Men
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Women"
-            onChange={(e) => handleSetGenderFilter(e.target.value)}
-          />
-          Women
-        </label>
-      </div>
-      {/* Color filter */}
-      <div className="flex flex-col">
-        <h3 className="font-bold">Color</h3>
-        <label>
-          <input
-            type="checkbox"
-            value="Red"
-            onChange={(e) => handleSetColorFilter(e.target.value)}
-          />
-          Red
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Blue"
-            onChange={(e) => handleSetColorFilter(e.target.value)}
-          />
-          Blue
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Green"
-            onChange={(e) => handleSetColorFilter(e.target.value)}
-          />
-          Green
-        </label>
-      </div>
-      {/* Type filter */}
-      <div className="flex flex-col">
-        <h3 className="font-bold">Type</h3>
-        <label>
-          <input
-            type="checkbox"
-            value="Basic"
-            onChange={(e) => handleSetTypeFilter(e.target.value)}
-          />
-          Basic
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Polo"
-            onChange={(e) => handleSetTypeFilter(e.target.value)}
-          />
-          Polo
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="Hoodie"
-            onChange={(e) => handleSetTypeFilter(e.target.value)}
-          />
-          Hoodie
-        </label>
-      </div>
-      {/* Price range filter */}
-      <div className="flex flex-col">
-        <h3 className="font-bold">Price Range</h3>
-        <label>
-          <input
-            type="checkbox"
-            value="0-250"
-            onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
-          />
-          0-250
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="251-400"
-            onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
-          />
-          251-400
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="401-600"
-            onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
-          />
-          401-600
-        </label>
-        {/* Add other price range options */}
+    <div className="w-[230px]">
+      <div className="bg-slate-200 border shadow-md p-5 m-5">
+        <h2>Filters</h2>
+        <br />
+        {/* Gender filter */}
+        <div className="flex flex-col ">
+          <h3 className="font-bold gap-3 ">Gender</h3>
+          <label>
+            <input
+              type="checkbox"
+              value="Men"
+              onChange={(e) => handleSetGenderFilter(e.target.value)}
+            />
+            Men
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Women"
+              onChange={(e) => handleSetGenderFilter(e.target.value)}
+            />
+            Women
+          </label>
+        </div>
+        {/* Color filter */}
+        <div className="flex flex-col">
+          <h3 className="font-bold gap-3">Color</h3>
+          <label>
+            <input
+              type="checkbox"
+              value="Red"
+              onChange={(e) => handleSetColorFilter(e.target.value)}
+            />
+            Red
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Blue"
+              onChange={(e) => handleSetColorFilter(e.target.value)}
+            />
+            Blue
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Green"
+              onChange={(e) => handleSetColorFilter(e.target.value)}
+            />
+            Green
+          </label>
+        </div>
+        {/* Type filter */}
+        <div className="flex flex-col">
+          <h3 className="font-bold gap-3">Type</h3>
+          <label>
+            <input
+              type="checkbox"
+              value="Basic"
+              onChange={(e) => handleSetTypeFilter(e.target.value)}
+            />
+            Basic
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Polo"
+              onChange={(e) => handleSetTypeFilter(e.target.value)}
+            />
+            Polo
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Hoodie"
+              onChange={(e) => handleSetTypeFilter(e.target.value)}
+            />
+            Hoodie
+          </label>
+        </div>
+        {/* Price range filter */}
+        <div className="flex flex-col">
+          <h3 className="font-bold gap-3">Price Range</h3>
+          <label>
+            <input
+              type="checkbox"
+              value="0-250"
+              onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
+            />
+            0-250
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="251-400"
+              onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
+            />
+            251-400
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="401-600"
+              onChange={(e) => handleSetPriceRangeFilter(e.target.value)}
+            />
+            401-600
+          </label>
+        </div>
       </div>
     </div>
   );
