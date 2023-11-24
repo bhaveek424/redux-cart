@@ -1,6 +1,4 @@
-import React from 'react';
 import Products from '../components/Products';
-import Sidebar from '../components/Sidebar';
 
 const Home = () => {
   return (

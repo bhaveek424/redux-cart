@@ -1,5 +1,6 @@
 import { Search } from 'lucide-react';
 
+// eslint-disable-next-line react/prop-types
 const SearchInput = ({ searchText, handleSearch }) => {
   return (
     <div className="flex items-center justify-center p-5 border rounded py-2 pl-8 pr-4">
